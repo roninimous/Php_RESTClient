@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+{% block title %}Venue Booking App{% endblock %}
+{% block heading %}Venue Booking App{% endblock %}
+{% block body %}    
+
+<br><br><br><br><br><br>
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10 box-red text-center">
+                View All Booking 
+            </div>
+            <div class="col-md-1"></div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10 jumbotron">
+                <div class="responsive">
+                    <table class="table table-striped table-hover text-left">
+                        <tr>
+                            <th>ID</th><th>Firstname</th><th>Lastname</th><th>Email</th>
+                            <th>Mobile</th><th>Photo</th><th>Booking Date</th><th>Booking Time</th><th colspan='2'>Manage</th>
+                        </tr>
+                       {% for row in records %}
+                            <tr>
+                                <td>{{ row.id }}</td>
+                                <td>{{ row.first_name }}</td>
+                                <td>{{ row.last_name }}</td>
+                                <td>{{ row.email }}</td>
+                                <td>{{ row.mobile }}</td>
+                                <td>{{ row.booking_date }}</td>
+                                <td>{{ row.booking_time }}</td>
+                                <td><img src="static/photos/{{ row.image_filename }}" width="100" height="100" alt="{{ row.image_filename }}"></td>
+                                <td><a href="?action=editContact&id={{ row.id }}">Edit</a></td>
+                                <td><a href="?action=deleteContact&id={{ row.id }}&image_filename={{ row.image_filename }}">Delete</a></td>
+                            </tr>
+                        {% endfor %}
+
+                    </table>
+                </div>
+         </div>
+            <div class="col-md-1"></div>
+        </div>
+
+    </div>
+                        <br><br><br><br><br><br>
+
+{% endblock %}
+
+

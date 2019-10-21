@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+   Search Booking
+   {% endblock %}
+   
+   {% block heading %}Search Booking
+   {% endblock %}
+   
+   
+   {% block body %}
+
+    
+<br><br><br><br><br><br>
+    
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6 box-red text-center form-title-font-color">
+                    Search Booking
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6 jumbotron">
+                    <form action="?action=searchContact" method="post" novalidate="true" enctype="multipart/form-data">
+                        
+                        
+                        
+                    <div class="form-group"> 
+                    <label for="keyword">
+                        Keyword:
+                        <small class="text-danger"/>
+                        {% if errors.keyword is defined %}
+                            {{ errors.keyword }}
+                        {% endif %}
+                    </small>
+                    </label>
+                    <input type="text" value="{{ keyword }}" class="form-control" placeholder="Enter keyword" name="keyword">
+                    </div>
+                    
+                 
+                        
+                      
+                        
+                        
+                        
+                        <button type="submit" class="btn btn-block btn-danger" name="submit">Submit</button>
+                    </form>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+        </div>
+
+<br><br><br><br><br><br>
+
+
+   
+
+       
+       
+       
+         {% endblock %}
+

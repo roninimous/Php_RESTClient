@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="static/css/styles.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+      
+    </head>
+    <body>
+
+        <nav class="navbar navbar-expand-md navbar-custom navbar-dark fixed-top">
+            <a class="navbar-brand" href="#">{% block heading %}{% endblock %}</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/vbookings">Home</a>
+                    </li>
+                   
+                    <!-- Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" id="navbardrop" data-toggle="dropdown">
+                            E-Bookings
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="?action=addContact">Book Venue</a>
+                            <a class="dropdown-item" href="?action=searchContact">Search Booking</a>
+                            <a class="dropdown-item" href="?action=viewContacts">View Booking</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>  
+        </nav>
+        <br>
+        {% block body %}
+
+
+
+
+
+        {% endblock %}
+      
+
+        <div class="footer">
+            Keosombath. Copyright 2019
+        </div>
+
+    </body>
+</html>
+
+

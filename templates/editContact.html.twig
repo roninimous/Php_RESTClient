@@ -1,0 +1,148 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+   Edit Booking
+   {% endblock %}
+   
+   {% block heading %}Edit Booking
+   {% endblock %}
+   
+   
+   {% block body %}
+
+    
+<br><br><br><br><br><br>
+    
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6 box-red text-center form-title-font-color">
+                    Edit Booking
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6 jumbotron">
+                    <form action="?action=editContact" method="post" novalidate="true" enctype="multipart/form-data">
+                        
+                    <div class="form-group"> 
+                    <label for="id">
+                        ID:  
+                    </label>
+                    <input type="text" value="{{ id }}" class="form-control" name="id" readonly="true">
+                    </div>    
+                        
+                    <div class="form-group"> 
+                    <label for="first_name">
+                        Firstname:
+                        <small class="text-danger"/>
+                        {% if errors.first_name is defined %}
+                            {{ errors.first_name }}
+                        {% endif %}
+                    </small>
+                    </label>
+                    <input type="text" value="{{ first_name }}" class="form-control" placeholder="Enter firstname" name="first_name">
+                    </div>
+                    
+                    <div class="form-group"> 
+                    <label for="last_name">
+                        Lastname:
+                        <small class="text-danger"/>
+                        {% if errors.last_name is defined %}
+                            {{ errors.last_name }}
+                        {% endif %}
+                    </small>
+                    </label>
+                    <input type="text" value="{{ last_name }}" class="form-control" placeholder="Enter lastname" name="last_name">
+                    </div>
+
+                    
+                        
+                    <div class="form-group">
+                        <label for="email">Email:
+                        <small class="text-danger"/>
+                               {% if errors.email is defined %}
+                            {{ errors.email }}
+                        {% endif %}
+                    </small>
+                        </label>
+                        <input type="text" value="{{ email }}" class="form-control" placeholder="Enter email" name="email">
+                    </div>
+                        
+                    
+                        
+                    <div class="form-group"> 
+                    <label for="mobile">
+                        Mobile:
+                        <small class="text-danger"/>
+                        {% if errors.mobile is defined %}
+                            {{ errors.mobile }}
+                        {% endif %}
+                    </small>
+                    </label>
+                    <input type="text" value="{{ mobile }}" class="form-control" placeholder="Enter mobile" name="mobile">
+                    </div>
+                    
+                    
+                    <div class="form-group"> 
+                    <label for="booking_date">
+                        Booking Date:
+                        <small class="text-danger"/>
+                        {% if errors.booking_date is defined %}
+                            {{ errors.booking_date }}
+                        {% endif %}
+                    </small>
+                    </label>
+                    <input type="text" value="{{ booking_date }}" class="form-control" placeholder="Enter booking date" name="booking_date">
+                    </div>
+                    
+                    
+                    <div class="form-group"> 
+                    <label for="booking_time">
+                        Booking Time:
+                        <small class="text-danger"/>
+                        {% if errors.booking_time is defined %}
+                            {{ errors.booking_time }}
+                        {% endif %}
+                    </small>
+                    </label>
+                    <input type="text" value="{{ booking_time }}" class="form-control" placeholder="Enter booking time" name="booking_time">
+                    </div>
+                    
+                    
+                    <div class="form-group"> 
+                    <label for="image">
+                        Image:
+                        <small class="text-danger"/>
+                        {% if errors.image is defined %}
+                            {{ errors.image }}
+                        {% endif %}
+                    </small>
+                    </label>
+                    <input type="file" class="form-control" placeholder="Enter image" name="image">
+                    </div>    
+                        
+                        
+                      
+                        
+                        
+                        
+                        <button type="submit" class="btn btn-block btn-danger" name="submit">Submit</button>
+                    </form>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+        </div>
+
+
+
+
+   
+
+       
+       
+       
+         {% endblock %}
+
