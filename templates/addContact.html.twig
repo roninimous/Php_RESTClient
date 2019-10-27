@@ -106,6 +106,18 @@
                     <input type="text" value="{{ booking_time }}" class="form-control" placeholder="Enter booking time" name="booking_time">
                     </div>
                     
+                    <div class="form-group"> 
+                    <label for="venue">
+                        Venue:
+                        <small class="text-danger"/>
+                        {% if errors.venue is defined %}
+                            {{ errors.venue }}
+                        {% endif %}
+                    </small>
+                    </label>
+                    <input type="text" value="{{ venue }}" class="form-control" placeholder="Enter venue" name="venue">
+                    </div>
+                    
                     
                     
                     <div class="form-group"> 

@@ -13,21 +13,23 @@
  */
 // Access to twig view object
 // this line reveals the library to PHP
-require __DIR__. '/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
+
 // Reference to Twig environment
 use Twig\Environment;
 // Reference to File system
 use Twig\Loader\FilesystemLoader;
-
 use GuzzleHttp\Client;
+
 // include_once 'ContactsDB.php';
 
 class RequestAction {
 
     var $client;
     var $view;
+
     function __construct() {
-        $this->client = new Client(['base_uri' => 'http://localhost:8080/RESTServer4597377/']);
+        $this->client = new Client(['base_uri' => 'http://localhost/RESTServer4597377/']);
 //        $this->client = new Client(['base_uri' => 'http://localhost/TestSLIM/']);
         // tell Twig path to template files
         $loader = new FilesystemLoader(__DIR__ . '/../templates');
@@ -90,31 +92,43 @@ class RequestAction {
             $last_name = $_POST["last_name"];
             $email = $_POST["email"];
             $mobile = $_POST["mobile"];
+            $booking_date = $_POST['booking_date'];
+            $booking_time = $_POST['booking_time'];
+            $venue = $_POST['venue'];
 // how to retrieve the filename of the image 
-            $photo_filename = $_FILES["image"]["name"];
+            $image_filename = $_FILES["image"]["name"];
 // how to retrieve the temporary filename path 
             $temp_file = $_FILES["image"]["tmp_name"];
 
 // define the upload directory destination
             $destination = './static/photos/';
-            $target_file = $destination . $photo_filename;
+            $target_file = $destination . $image_filename;
 // now move the file to the destination directory 
             move_uploaded_file($temp_file, $target_file);
 
+            $_POST['image_filename'] = $image_filename;
+            
+            try {
+            $uri = 'contacts';
+            $response = $this->client->request('POST', $uri, ['form_params' => $_POST]);
+            $data = json_decode($response->getBody()->getContents(), true);
+            $message = $data['message'];
 
 
-
-            $values = ["$first_name", "$last_name", "$email", "$mobile", "$photo_filename"];
+            // $values = ["$first_name", "$last_name", "$email", "$mobile", "$photo_filename"];
 // Variable success = Call CRUD function ADD CONTACT and pass in values array as parameter
 //            $success = $this->contacts->addContact($values);
-            if ($success) {
-                $message = "Contact has successfully added to Database. Loading View Contacts page in 5 seconds";
-                echo $this->view->render('message.html.twig', ['message' => $message]);
-            } else {
-                $message = 'Contact failed to add to Database';
-                echo $this->view->render('message.html.twig', ['message' => $message]);
-            }// Load viewContact Page after 5 seconds
+//            if ($success) {
+//                $message = "Contact has successfully added to Database. Loading View Contacts page in 5 seconds";
+//                echo $this->view->render('message.html.twig', ['message' => $message]);
+//            } else {
+//                $message = 'Contact failed to add to Database';
+            echo $this->view->render('message.html.twig', ['message' => $message]);
+//            }// Load viewContact Page after 5 seconds
             header("Refresh:5;url=?action=viewContacts");
+            }catch (Exception $e){
+            echo $this->view->render('message.html.twig', ['message' => $e->getMessage()]);
+            }
         } else {
             echo $this->view->render('addContact.html.twig');
         }
@@ -132,6 +146,9 @@ class RequestAction {
     function searchContact() {
         if (isset($_POST['submit'])) {
             $keyword = $_POST['keyword'];
+            $uri = "contacts/keyword/$keyword";
+            $response = $this->client->get($uri);
+            $records = json_decode($response->getBody()->getContents(), true);
 //            $records = $this->contacts->searchContact($keyword);
             echo $this->view->render('data.html.twig', ['records' => $records]);
         } else {
@@ -159,9 +176,8 @@ class RequestAction {
         // Load viewContact Page after 5 seconds
         header("Refresh:5;url=?action=viewContacts");
     }
-    
-    
-    function getData(){
+
+    function getData() {
         $uri = 'data';
         $response = $this->client->get($uri);
         $records = json_decode($response->getBody()->getContents(), true);
