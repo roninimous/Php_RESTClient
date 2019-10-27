@@ -87,7 +87,7 @@ class RequestAction {
     function addContact() {
 
         if (isset($_POST['submit'])) {
-// Retrieve and assign post array values to form variables
+        // Retrieve and assign post array values to form variables
             $first_name = $_POST["first_name"];
             $last_name = $_POST["last_name"];
             $email = $_POST["email"];
@@ -95,40 +95,35 @@ class RequestAction {
             $booking_date = $_POST['booking_date'];
             $booking_time = $_POST['booking_time'];
             $venue = $_POST['venue'];
-// how to retrieve the filename of the image 
+            // how to retrieve the filename of the image 
             $image_filename = $_FILES["image"]["name"];
-// how to retrieve the temporary filename path 
+            // how to retrieve the temporary filename path 
             $temp_file = $_FILES["image"]["tmp_name"];
 
-// define the upload directory destination
+            // define the upload directory destination
             $destination = './static/photos/';
             $target_file = $destination . $image_filename;
-// now move the file to the destination directory 
-            move_uploaded_file($temp_file, $target_file);
+            
+            
 
             $_POST['image_filename'] = $image_filename;
             
-            try {
+            
+            
+//            try {
             $uri = 'contacts';
             $response = $this->client->request('POST', $uri, ['form_params' => $_POST]);
             $data = json_decode($response->getBody()->getContents(), true);
             $message = $data['message'];
+            // now move the file to the destination directory 
+            move_uploaded_file($temp_file, $target_file);
 
-
-            // $values = ["$first_name", "$last_name", "$email", "$mobile", "$photo_filename"];
-// Variable success = Call CRUD function ADD CONTACT and pass in values array as parameter
-//            $success = $this->contacts->addContact($values);
-//            if ($success) {
-//                $message = "Contact has successfully added to Database. Loading View Contacts page in 5 seconds";
-//                echo $this->view->render('message.html.twig', ['message' => $message]);
-//            } else {
-//                $message = 'Contact failed to add to Database';
             echo $this->view->render('message.html.twig', ['message' => $message]);
-//            }// Load viewContact Page after 5 seconds
+            // Load viewContact Page after 5 seconds
             header("Refresh:5;url=?action=viewContacts");
-            }catch (Exception $e){
-            echo $this->view->render('message.html.twig', ['message' => $e->getMessage()]);
-            }
+//            }catch (Exception $e){
+//            echo $this->view->render('message.html.twig', ['message' => $e->getMessage()]);
+//            }
         } else {
             echo $this->view->render('addContact.html.twig');
         }
