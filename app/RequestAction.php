@@ -44,50 +44,43 @@ class RequestAction {
 
     function editContact() {
         // Check the id from the link if it is there or not
-        if (isset($_GET['id'])) {
-            // if the id is there, put it into $id variable
-            $id = $_GET['id'];
-        }
+
+        $id = $_GET['id'];
+
 
         if (isset($_POST['submit'])) {
 // Retrieve and assign post array values to form variables
-            $id = $_POST['id'];
             $first_name = $_POST["first_name"];
             $last_name = $_POST["last_name"];
             $email = $_POST["email"];
             $mobile = $_POST["mobile"];
-// how to retrieve the filename of the image 
-            $photo_filename = $_FILES["image"]["name"];
-// how to retrieve the temporary filename path 
-            $temp_file = $_FILES["image"]["tmp_name"];
-// define the upload directory destination
-            $destination = './static/photos/';
-            $target_file = $destination . $photo_filename;
-// now move the file to the destination directory 
-            move_uploaded_file($temp_file, $target_file);
-            $values = ["$first_name", "$last_name", "$email", "$mobile", "$photo_filename"];
-// Variable success = Call CRUD function ADD CONTACT and pass in values array as parameter
-//            $success = $this->contacts->editContact($id, $values);
-            if ($success) {
-                $message = 'Contact has successfully updated. Loading View Contacts page in 5 seconds';
-                echo $this->view->render('message.html.twig', ['message' => $message]);
-            } else {
-                $message = 'Contact failed to update. Loading View Contacts page in 5 seconds';
-                echo $this->view->render('message.html.twig', ['message' => $message]);
-            }
+            $booking_date = $_POST['booking_date'];
+            $booking_time = $_POST['booking_time'];
+            $venue = $_POST['venue'];
+            $image_filename = $_POST['image_filename'];
+
+            $uri = "contacts/$id";
+            $response = $this->client->request('PUT', $uri, ['form_params' => $_POST]);
+            $data = json_decode($response->getBody()->getContents(), true);
+            $message = $data['message'];
+            echo $this->view->render('message.html.twig', ['message' => $message]);
+
             // Load viewContact Page after 5 seconds
             header("Refresh:5;url=?action=viewContacts");
         } else {
+            $uri = "contacts/$id";
+            $response = $this->client->get($uri);
+            $record = json_decode($response->getBody()->getContents(), true);
 
             // If the submit button is not submitted, show the edit form and put the $id into the form
-            echo $this->view->render('editContact.html.twig', ['id' => $id]);
+            echo $this->view->render('editContact.html.twig', ['record' => $record]);
         }
     }
 
     function addContact() {
 
         if (isset($_POST['submit'])) {
-        // Retrieve and assign post array values to form variables
+            // Retrieve and assign post array values to form variables
             $first_name = $_POST["first_name"];
             $last_name = $_POST["last_name"];
             $email = $_POST["email"];
@@ -103,13 +96,13 @@ class RequestAction {
             // define the upload directory destination
             $destination = './static/photos/';
             $target_file = $destination . $image_filename;
-            
-            
+
+
 
             $_POST['image_filename'] = $image_filename;
-            
-            
-            
+
+
+
 //            try {
             $uri = 'contacts';
             $response = $this->client->request('POST', $uri, ['form_params' => $_POST]);
@@ -152,21 +145,27 @@ class RequestAction {
     }
 
     function deleteContact() {
-        if (isset($_GET['photo_filename'])) {
-            $photo_filename = $_GET['photo_filename'];
+        if (isset($_GET['image_filename'])) {
+            $image_filename = $_GET['image_filename'];
         }
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
 //            $success = $this->contacts->deleteContact($id);
+
+            $uri = "contacts/$id";
+            $response = $this->client->delete($uri);
+            $data = json_decode($response->getBody()->getContents(), true);
+            $message = $data['message'];
+            echo $this->view->render('message.html.twig', ['message' => $message]);
             $destination = './static/photos/';
-            unlink($destination . $photo_filename);
-            if ($success) {
-                $message = 'Contact has been successfully deleted. Loading View Contacts page in 5 seconds';
-                echo $this->view->render('message.html.twig', ['message' => $message]);
-            } else {
-                $message = 'Contact failed to delete. Loading View Contacts page in 5 seconds';
-                echo $this->view->render('message.html.twig', ['message' => $message]);
-            }
+            unlink($destination . $image_filename);
+//            if ($success) {
+//                $message = 'Contact has been successfully deleted. Loading View Contacts page in 5 seconds';
+            
+//            } else {
+//                $message = 'Contact failed to delete. Loading View Contacts page in 5 seconds';
+//                echo $this->view->render('message.html.twig', ['message' => $message]);
+//            }
         }
         // Load viewContact Page after 5 seconds
         header("Refresh:5;url=?action=viewContacts");
