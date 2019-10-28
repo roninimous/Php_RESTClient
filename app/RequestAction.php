@@ -29,7 +29,7 @@ class RequestAction {
     var $view;
 
     function __construct() {
-        $this->client = new Client(['base_uri' => 'http://localhost:8080/RESTServer4597377/']);
+        $this->client = new Client(['base_uri' => 'http://localhost/RESTServer4597377/']);
 //        $this->client = new Client(['base_uri' => 'http://localhost/TestSLIM/']);
         // tell Twig path to template files
         $loader = new FilesystemLoader(__DIR__ . '/../templates');
@@ -114,11 +114,16 @@ class RequestAction {
 
     function searchBookings() {
         if (isset($_POST['submit'])) {
-            $keyword = $_POST['keyword'] ?? '';
-            $uri = "bookings/keyword/$keyword";
-            $response = $this->client->get($uri);
-            $records = json_decode($response->getBody()->getContents(), true);
-
+            $keyword = $_POST['keyword'];
+            if (strlen($keyword)>0) {
+                $uri = "bookings/keyword/$keyword";
+                $response = $this->client->get($uri);
+                $records = json_decode($response->getBody()->getContents(), true);
+            } else {
+                $uri = "bookings";
+                $response = $this->client->get($uri);
+                $records = json_decode($response->getBody()->getContents(), true);
+            }
             echo $this->view->render('data.html.twig', ['records' => $records]);
         } else {
             echo $this->view->render('search.html.twig');

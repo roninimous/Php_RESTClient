@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-   Add Contact
+   Edit Booking
    {% endblock %}
    
-   {% block heading %}Add Contact
+   {% block heading %}Edit Booking
    {% endblock %}
    
    
@@ -17,17 +17,22 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3"></div>
-                <div class="col-md-6 box-black text-center form-title-font-color">
-                    Add Booking
+                <div class="col-md-6 box-red text-center form-title-font-color">
+                    Edit Booking
                 </div>
                 <div class="col-md-3"></div>
             </div>
             <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6 jumbotron">
-                    <form action="?action=addBooking" method="post" novalidate="true" enctype="multipart/form-data">
+                    <form action="?action=editContact&id={{ record.id }}" method="post" novalidate="true" enctype="multipart/form-data">
                         
-                        
+                    <div class="form-group"> 
+                    <label for="id">
+                        ID:  
+                    </label>
+                    <input type="text" value="{{ record.id }}" class="form-control" name="id" readonly="true">
+                    </div>    
                         
                     <div class="form-group"> 
                     <label for="first_name">
@@ -38,7 +43,7 @@
                         {% endif %}
                     </small>
                     </label>
-                    <input type="text" value="{{ first_name }}" class="form-control" placeholder="Enter firstname" name="first_name">
+                    <input type="text" value="{{ record.first_name }}" class="form-control" name="first_name">
                     </div>
                     
                     <div class="form-group"> 
@@ -50,7 +55,7 @@
                         {% endif %}
                     </small>
                     </label>
-                    <input type="text" value="{{ last_name }}" class="form-control" placeholder="Enter lastname" name="last_name">
+                    <input type="text" value="{{ record.last_name }}" class="form-control" name="last_name">
                     </div>
 
                     
@@ -63,8 +68,9 @@
                         {% endif %}
                     </small>
                         </label>
-                        <input type="text" value="{{ email }}" class="form-control" placeholder="Enter email" name="email">
+                        <input type="text" value="{{ record.email }}" class="form-control" name="email">
                     </div>
+                        
                     
                         
                     <div class="form-group"> 
@@ -76,9 +82,8 @@
                         {% endif %}
                     </small>
                     </label>
-                    <input type="text" value="{{ mobile }}" class="form-control" placeholder="Enter mobile" name="mobile">
-                    </div>    
-                    
+                    <input type="text" value="{{ record.mobile }}" class="form-control" name="mobile">
+                    </div>
                     
                     
                     <div class="form-group"> 
@@ -90,7 +95,7 @@
                         {% endif %}
                     </small>
                     </label>
-                    <input type="text" value="{{ booking_date }}" class="form-control" placeholder="yyyy-mm-dd" name="booking_date">
+                    <input type="text" value="{{ record.booking_date }}" class="form-control" name="booking_date">
                     </div>
                     
                     
@@ -103,8 +108,9 @@
                         {% endif %}
                     </small>
                     </label>
-                    <input type="text" value="{{ booking_time }}" class="form-control" placeholder="hh:mm:ss" name="booking_time">
+                    <input type="text" value="{{ record.booking_time }}" class="form-control" name="booking_time">
                     </div>
+                    
                     
                     <div class="form-group"> 
                     <label for="venue">
@@ -115,21 +121,15 @@
                         {% endif %}
                     </small>
                     </label>
-                    <input type="text" value="{{ venue }}" class="form-control" placeholder="Enter venue" name="venue">
+                    <input type="text" value="{{ record.venue }}" class="form-control" name="venue">
                     </div>
                     
-                    
-                    
                     <div class="form-group"> 
-                    <label for="image">
+                    <label for="image_filename">
                         Image:
-                        <small class="text-danger"/>
-                        {% if errors.image is defined %}
-                            {{ errors.image }}
-                        {% endif %}
-                    </small>
+                        
                     </label>
-                    <input type="file" class="form-control" placeholder="Enter image" name="image">
+                    <input type="text" class="form-control" value="{{ record.image_filename }}" readonly="true" name="image_filename">
                     </div>    
                         
                         
@@ -137,13 +137,13 @@
                         
                         
                         
-                        <button type="submit" class="btn btn-block btn-primary" name="submit">Submit</button>
+                        <button type="submit" class="btn btn-block btn-danger" name="submit">Submit</button>
                     </form>
                 </div>
                 <div class="col-md-3"></div>
             </div>
         </div>
-<br><br><br><br><br><br>
+
 
 
 
