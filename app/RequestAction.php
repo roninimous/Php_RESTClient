@@ -29,7 +29,7 @@ class RequestAction {
     var $view;
 
     function __construct() {
-        $this->client = new Client(['base_uri' => 'http://localhost/RESTServer4597377/']);
+        $this->client = new Client(['base_uri' => 'http://localhost:8080/RESTServer4597377/']);
 //        $this->client = new Client(['base_uri' => 'http://localhost/TestSLIM/']);
         // tell Twig path to template files
         $loader = new FilesystemLoader(__DIR__ . '/../templates');
@@ -38,16 +38,12 @@ class RequestAction {
     }
 
     function index() {
-
         echo $this->view->render('index.html.twig');
     }
 
-    function editContact() {
+    function editBooking() {
         // Check the id from the link if it is there or not
-
         $id = $_GET['id'];
-
-
         if (isset($_POST['submit'])) {
 // Retrieve and assign post array values to form variables
             $first_name = $_POST["first_name"];
@@ -59,26 +55,23 @@ class RequestAction {
             $venue = $_POST['venue'];
             $image_filename = $_POST['image_filename'];
 
-            $uri = "contacts/$id";
+            $uri = "bookings/$id";
             $response = $this->client->request('PUT', $uri, ['form_params' => $_POST]);
             $data = json_decode($response->getBody()->getContents(), true);
             $message = $data['message'];
             echo $this->view->render('message.html.twig', ['message' => $message]);
-
             // Load viewContact Page after 5 seconds
-            header("Refresh:5;url=?action=viewContacts");
+            header("Refresh:5;url=?action=viewBookings");
         } else {
-            $uri = "contacts/$id";
+            $uri = "bookings/$id";
             $response = $this->client->get($uri);
             $record = json_decode($response->getBody()->getContents(), true);
-
             // If the submit button is not submitted, show the edit form and put the $id into the form
-            echo $this->view->render('editContact.html.twig', ['record' => $record]);
+            echo $this->view->render('editBooking.html.twig', ['record' => $record]);
         }
     }
 
-    function addContact() {
-
+    function addBooking() {
         if (isset($_POST['submit'])) {
             // Retrieve and assign post array values to form variables
             $first_name = $_POST["first_name"];
@@ -92,19 +85,12 @@ class RequestAction {
             $image_filename = $_FILES["image"]["name"];
             // how to retrieve the temporary filename path 
             $temp_file = $_FILES["image"]["tmp_name"];
-
             // define the upload directory destination
             $destination = './static/photos/';
             $target_file = $destination . $image_filename;
-
-
-
             $_POST['image_filename'] = $image_filename;
 
-
-
-//            try {
-            $uri = 'contacts';
+            $uri = 'bookings';
             $response = $this->client->request('POST', $uri, ['form_params' => $_POST]);
             $data = json_decode($response->getBody()->getContents(), true);
             $message = $data['message'];
@@ -113,46 +99,39 @@ class RequestAction {
 
             echo $this->view->render('message.html.twig', ['message' => $message]);
             // Load viewContact Page after 5 seconds
-            header("Refresh:5;url=?action=viewContacts");
-//            }catch (Exception $e){
-//            echo $this->view->render('message.html.twig', ['message' => $e->getMessage()]);
-//            }
+            header("Refresh:5;url=?action=viewBookings");
         } else {
-            echo $this->view->render('addContact.html.twig');
+            echo $this->view->render('addBooking.html.twig');
         }
     }
 
-    function viewContacts() {
-        $uri = 'contacts';
+    function viewBookings() {
+        $uri = 'bookings';
         $response = $this->client->get($uri);
         $records = json_decode($response->getBody()->getContents(), true);
-
-//        $records = $this->contacts->getContacts();
         echo $this->view->render('data.html.twig', ['records' => $records]);
     }
 
-    function searchContact() {
+    function searchBookings() {
         if (isset($_POST['submit'])) {
-            $keyword = $_POST['keyword'];
-            $uri = "contacts/keyword/$keyword";
+            $keyword = $_POST['keyword'] ?? '';
+            $uri = "bookings/keyword/$keyword";
             $response = $this->client->get($uri);
             $records = json_decode($response->getBody()->getContents(), true);
-//            $records = $this->contacts->searchContact($keyword);
+
             echo $this->view->render('data.html.twig', ['records' => $records]);
         } else {
             echo $this->view->render('search.html.twig');
         }
     }
 
-    function deleteContact() {
+    function deleteBooking() {
         if (isset($_GET['image_filename'])) {
             $image_filename = $_GET['image_filename'];
         }
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
-//            $success = $this->contacts->deleteContact($id);
-
-            $uri = "contacts/$id";
+            $uri = "bookings/$id";
             $response = $this->client->delete($uri);
             $data = json_decode($response->getBody()->getContents(), true);
             $message = $data['message'];
@@ -161,14 +140,13 @@ class RequestAction {
             unlink($destination . $image_filename);
 //            if ($success) {
 //                $message = 'Contact has been successfully deleted. Loading View Contacts page in 5 seconds';
-            
 //            } else {
 //                $message = 'Contact failed to delete. Loading View Contacts page in 5 seconds';
 //                echo $this->view->render('message.html.twig', ['message' => $message]);
 //            }
         }
         // Load viewContact Page after 5 seconds
-        header("Refresh:5;url=?action=viewContacts");
+        header("Refresh:5;url=?action=viewBookings");
     }
 
     function getData() {

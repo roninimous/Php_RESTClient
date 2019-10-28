@@ -19,8 +19,8 @@ $requestAction->{$action}();
 
 ?>
 <br>
-<a href="?">Home</a>
-<a href="?action=getData">Get Data from REST Server</a>
+<!--<a href="?">Home</a>
+<a href="?action=getData">Get Data from REST Server</a>-->
 
 
 
