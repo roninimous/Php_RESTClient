@@ -24,20 +24,20 @@
             <div class="collapse navbar-collapse" id="collapsibleNavbar">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="/RESTClientUserMod">Home</a>
+                        <a class="nav-link active" href="?action=userHome">Home</a>
                         
                     </li>
-                    <li class="nav-item">
-                        {#User Registration form#}
+                  {#  <li class="nav-item">
+                        {#User Registration form
                         <a class="nav-link active" href="?action=signUp">Sign Up</a>
-                   </li>
+                   </li>#}
                    
-                   <li class="nav-item">
-                        {#User login form#}
+{#                   <li class="nav-item">#}
+                        {#User login form
                         <a class="nav-link active" href="?action=logIn">Log In</a>
-                   </li>
+{#                   </li>#}
                     <!-- Dropdown -->
-                    {#<li class="nav-item dropdown">
+                    <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle active" href="#" id="navbardrop" data-toggle="dropdown">
                             E-Bookings
                         </a>
@@ -46,7 +46,12 @@
                             <a class="dropdown-item" href="?action=searchBookings">Search Booking</a>
                             <a class="dropdown-item" href="?action=viewBookings">View Booking</a>
                         </div>
-                    </li>#}
+                    </li>
+                    
+                    <li class="nav-item">
+                        {#User Signout#}
+                        <a class="nav-link active" href="?action=logOut">Log Out</a>
+                   </li>
                 </ul>
             </div>  
         </nav>
