@@ -4,7 +4,7 @@
 {% block body %}    
 
 <br><br><br><br><br><br>
-    <div class="container">
+    <div class="container-fluid">
 
         <div class="row">
             <div class="col-md-0"></div>
@@ -19,10 +19,10 @@
             <div class="col-md-0"></div>
             <div class="col-md-12 jumbotron">
                 <div class="responsive">
-                    <table class="table table-striped table-hover text-left">
-                        <tr>
+                    <table class="table table-striped table-hover text-left table-bordered">
+                        <tr class="table-primary">
                             <th>ID</th><th>Firstname</th><th>Lastname</th><th>Email</th>
-                            <th>Mobile</th><th>Booking Date</th><th>Booking Time</th><th>Venue</th><th>Photo</th><th colspan='2'>Manage</th>
+                            <th>Mobile</th><th>Booking Date</th><th>Booking Time</th><th>Venue</th><th>Photo</th><th colspan='2' style="text-align:center;">Manage</th>
                         </tr>
                        {% for row in records %}
                             <tr>
@@ -35,8 +35,8 @@
                                 <td>{{ row.booking_time }}</td>
                                 <td>{{ row.venue }}</td>
                                 <td><img src="static/photos/{{ row.image_filename }}" width="100" height="100" alt="{{ row.image_filename }}"></td>
-                                <td><a href="?action=editBooking&id={{ row.id }}">Edit</a></td>
-                                <td><a href="?action=deleteBooking&id={{ row.id }}&image_filename={{ row.image_filename }}">Delete</a></td>
+                                <td><a href="?action=editBooking&id={{ row.id }}" type="button" class="btn btn-primary">Edit</a></td>
+                                <td><a href="?action=deleteBooking&id={{ row.id }}&image_filename={{ row.image_filename }}" type="button" class="btn btn-danger">Delete</a></td>
                             </tr>
                         {% endfor %}
 

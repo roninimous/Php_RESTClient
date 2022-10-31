@@ -1,0 +1,158 @@
+{% extends 'UserBase.html.twig' %}
+
+{% block title %}
+   Edit Booking
+   {% endblock %}
+   
+   {% block heading %}Edit Booking
+   {% endblock %}
+   
+   
+   {% block body %}
+
+    
+<br><br><br><br><br><br>
+    
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6 box-black text-center form-title-font-color">
+                    Edit Booking 
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6 jumbotron">
+                    <form action="?action=editBooking&id={{ record.id }}" method="post" novalidate="true" enctype="multipart/form-data">
+                        <small class="text-danger text-center"/>
+                        {{ errortitle }}
+                    </small>
+                    <div class="form-group"> 
+                    <label for="id">
+                        ID:  
+                    </label>
+                    <input type="text" value="{{ record.id }}" class="form-control" name="id" readonly="true">
+                    </div>    
+                        
+                    <div class="form-group"> 
+                    <label for="first_name">
+                        Firstname:
+                        <small class="text-danger"/>
+                        {% if errors.first_name is defined %}
+                            {{ errors.first_name }}
+                        {% endif %}
+                    </small>
+                    </label>
+                    <input type="text" value="{{ record.first_name }}" class="form-control" name="first_name">
+                    </div>
+                    
+                    <div class="form-group"> 
+                    <label for="last_name">
+                        Lastname:
+                        <small class="text-danger"/>
+                        {% if errors.last_name is defined %}
+                            {{ errors.last_name }}
+                        {% endif %}
+                    </small>
+                    </label>
+                    <input type="text" value="{{ record.last_name }}" class="form-control" name="last_name">
+                    </div>
+
+                    
+                        
+                    <div class="form-group">
+                        <label for="email">Email:
+                        <small class="text-danger"/>
+                               {% if errors.email is defined %}
+                            {{ errors.email }}
+                        {% endif %}
+                    </small>
+                        </label>
+                        <input type="text" value="{{ record.email }}" class="form-control" name="email">
+                    </div>
+                        
+                    
+                        
+                    <div class="form-group"> 
+                    <label for="mobile">
+                        Mobile:
+                        <small class="text-danger"/>
+                        {% if errors.mobile is defined %}
+                            {{ errors.mobile }}
+                        {% endif %}
+                    </small>
+                    </label>
+                    <input type="text" value="{{ record.mobile }}" class="form-control" name="mobile">
+                    </div>
+                    
+                    
+                    <div class="form-group"> 
+                    <label for="booking_date">
+                        Booking Date:
+                        <small class="text-danger"/>
+                        {% if errors.booking_date is defined %}
+                            {{ errors.booking_date }}
+                        {% endif %}
+                    </small>
+                    </label>
+                    <input type="text" value="{{ record.booking_date }}" class="form-control" name="booking_date">
+                    </div>
+                    
+                    
+                    <div class="form-group"> 
+                    <label for="booking_time">
+                        Booking Time:
+                        <small class="text-danger"/>
+                        {% if errors.booking_time is defined %}
+                            {{ errors.booking_time }}
+                        {% endif %}
+                    </small>
+                    </label>
+                    <input type="text" value="{{ record.booking_time }}" class="form-control" name="booking_time">
+                    </div>
+                    
+                    
+                    <div class="form-group"> 
+                    <label for="venue">
+                        Venue:
+                        <small class="text-danger"/>
+                        {% if errors.venue is defined %}
+                            {{ errors.venue }}
+                        {% endif %}
+                    </small>
+                    </label>
+                    <input type="text" value="{{ record.venue }}" class="form-control" name="venue">
+                    </div>
+                    
+                    <div class="form-group"> 
+                    <label for="image_filename">
+                        Image:
+                        
+                    </label>
+                    <input type="text" class="form-control" value="{{ record.image_filename }}" readonly="true" name="image_filename">
+                    </div>    
+                        
+                        
+                      
+                        
+                        
+                        
+                        <button type="submit" class="btn btn-block btn-primary" name="submit">Submit</button>
+                    </form>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+        </div>
+
+
+
+
+   
+
+       
+       
+       
+         {% endblock %}
+

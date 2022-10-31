@@ -30,7 +30,7 @@ class RequestAction {
     var $view;
 
     function __construct() {
-        $this->client = new Client(['base_uri' => 'http://localhost/RESTServerUserMod/']);
+        $this->client = new Client(['base_uri' => 'http://localhost/RESTServerUserMod1/']);
 //        $this->client = new Client(['base_uri' => 'http://localhost/TestSLIM/']);
         // tell Twig path to template files
         $loader = new FilesystemLoader(__DIR__ . '/../templates');
@@ -161,6 +161,8 @@ class RequestAction {
     }
 
     function addBooking() {
+		session_start();
+		if (isset($_SESSION['loggedIn']) &&$_SESSION['loggedIn']){
         if (isset($_POST['submit'])) {
 
 //            Retrieve form data safely
@@ -277,24 +279,64 @@ class RequestAction {
             echo $this->view->render('addBooking.html.twig');
         }
     }
+	else{
+		echo $this->view->render('login.html.twig');
+	}
+	}
+	
 
     function viewBookings() {
+		session_start();
+		if (isset($_SESSION['loggedIn']) &&$_SESSION['loggedIn']){
         $uri = 'bookings';
         $response = $this->client->get($uri);
         $records = json_decode($response->getBody()->getContents(), true);
         echo $this->view->render('data.html.twig', ['records' => $records]);
     }
+    else{
+		echo $this->view->render('login.html.twig');
+	}
+	}
+
+    function profileSetting() {
+        session_start();
+        
+        if (isset($_SESSION['loggedIn']) &&$_SESSION['loggedIn']) {
+            $id = $_SESSION['userId'];
+            $uri = "profileSetting/$id";
+            $response = $this->client->get($uri);
+                    
+                        
+                    $records = json_decode($response->getBody()->getContents(), true);
+                    
+                    
+                    echo $this->view->render('userProfile.html.twig', ['records' => $records]);
+        }
+         else {
+            echo $this->view->render('login.html.twig');
+        }
+    }
 
     function searchBookings() {
         session_start();
+        
         if (isset($_SESSION['loggedIn']) &&$_SESSION['loggedIn']) {
+            try {
+                // error if the URL is encoded like searching in khmer language will cause error
             
             if (isset($_POST['submit'])) {
                 $keyword = $_POST['keyword'];
+                // $keyword = urldecode($keyword);
                 if (strlen($keyword) > 0) {
+                    // decode other language EX: khmer
+                    // $keyword = urldecode($keyword);
                     $uri = "bookings/keyword/$keyword";
                     $response = $this->client->get($uri);
+                    
+                        
                     $records = json_decode($response->getBody()->getContents(), true);
+                    
+                    
                     echo $this->view->render('data.html.twig', ['records' => $records]);
                 } else {
                     $message = 'Missing input';
@@ -307,7 +349,11 @@ class RequestAction {
             } else {
                 echo $this->view->render('search.html.twig');
             }
-        } else {
+        } catch (Exception $e) {
+                echo $this->view->render('message.html.twig', ['message' => "Error searching keyword"]);
+            }
+        }
+         else {
             echo $this->view->render('login.html.twig');
         }
     }
@@ -318,13 +364,15 @@ class RequestAction {
         session_start();
 
 // Unset all of the session variables
-        $_SESSION = array();
+        $_SESSION['loggedIn'] = false;
 
 // Destroy the session.
         session_destroy();
 
 // Redirect to login page
-        header("Refresh:1;url=?action=logIn");
+//        header("Refresh:1;url=?action=logIn");
+        $message = "You are now logged out!";
+        echo $this->view->render('message.html.twig', ["message"=>$message]);
         exit;
 
 //        echo $this->view->render('index.html.twig');
@@ -352,12 +400,17 @@ class RequestAction {
 
                 $data = json_decode($response->getBody()->getContents(), true);
                 $message = $data['message'];
-                if ($message == "You are now logged in") {
-                    
+                $loginUser = $data['loginUser'];
+                $loginStatus = $data['loginStatus'];
+                $userId = $data['userId'];
+                $_SESSION['userId'] = $userId;
+                // if ($message == "You are now logged in!") {
+                    if ($loginStatus) {
                     $_SESSION['loggedIn'] = true;
 //                echo $this->view->render('message.html.twig', ['message' => $message]);
-                    echo $this->view->render('UserIndex.html.twig', ['message' => $message]);
+                    echo $this->view->render('UserIndex.html.twig', ['message' => $message,'loginUser'=>$loginUser,'userphoto'=>$loginUser, 'userId'=> $userId] );
                 } else {
+					
                     echo $this->view->render('message.html.twig', ['message' => $message]);
                 }
             } else {
@@ -440,65 +493,12 @@ class RequestAction {
                 }
             }
 
-
-
-            if (isset($_POST["create_date"])) {
-                $create_date = trim($_POST["create_date"]);
-                $message = validateDate($create_date);
-                if (strlen($message) > 0) {
-                    $errors['create_date'] = $message;
+			if (isset($_POST["password"])) {
+                $password = $_POST["password"];
+                if (strlen($password) == 0) {
+                    $errors['password'] = "Password is can't be empty";
                 }
             }
-
-
-
-
-
-            if (isset($_POST["street"])) {
-                $street = $_POST["street"];
-                $message = 'Missing input';
-                if (strlen($street) == 0) {
-                    $errors['street'] = $message;
-                }
-            }
-
-            if (isset($_POST["city"])) {
-                $city = $_POST["city"];
-                $message = 'Missing input';
-                if (strlen($city) == 0) {
-                    $errors['city'] = $message;
-                }
-            }
-
-
-            if (isset($_POST["state"])) {
-                $state = $_POST["state"];
-                $message = 'Missing input';
-                if (strlen($state) == 0) {
-                    $errors['state'] = $message;
-                }
-            }
-
-
-            if (isset($_POST["zip"])) {
-                $zip = $_POST["zip"];
-                $message = 'Missing input';
-                if (strlen($zip) == 0) {
-                    $errors['zip'] = $message;
-                }
-            }
-
-//            if (isset($_POST["phone_type"])) {
-//                $phone_type = $_POST["phone_type"];
-//                $message = 'Missing input';
-//                if (strlen($phone_type) == 0) {
-//                    $errors['phone_type'] = $message;
-//                }
-//            }
-
-
-
-
 
 
             if (count($errors) == 0) {
@@ -508,23 +508,15 @@ class RequestAction {
                 $email = $_POST["email"];
                 $password = $_POST["password"];
                 $phone = $_POST["phone"];
-                $create_date = $_POST['create_date'];
-                $street = $_POST['street'];
-                $city = $_POST['city'];
-                $state = $_POST['state'];
-                $zip = $_POST['zip'];
-                $phone_type = $_POST['phone_type'];
-
 
                 $uri = 'accounts';
                 $response = $this->client->request('POST', $uri, ['form_params' => $_POST]);
                 $data = json_decode($response->getBody()->getContents(), true);
                 $message = $data['message'];
-
-
+				
                 echo $this->view->render('message.html.twig', ['message' => $message]);
                 // Load viewContact Page after 5 seconds
-//            header("Refresh:5;url=?action=viewBookings");
+				//header("Refresh:5;url=?action=viewBookings");
             } else {
                 echo $this->view->render('signUp.html.twig', ['errors' => $errors]);
             }
