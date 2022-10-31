@@ -1,0 +1,116 @@
+# Created by https://www.gitignore.io/api/windows,composer,netbeans
+
+### Windows ###
+# Windows thumbnail cache files
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk
+
+
+### Composer ###
+composer.phar
+composer.lock
+composer.json
+/vendor/
+
+# Commit your application's lock file http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file
+# You may choose to ignore a library lock file http://getcomposer.org/doc/02-libraries.md#lock-file
+# composer.lock
+
+
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# End of https://www.gitignore.io/api/windows,composer,netbeans
+
+### Static files ###
+static/
+static/css/
+static/photos/
+static/img/
+
+### Apache Config files ###
+*.htaccess
+
+### Migration folder ###
+migration/
+
+
+### SQL Scripts ###
+*.sql
+
+#Added
+############
+# Archives #
+############
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+######################
+# Logs 
+######################
+*.log
+######################
+# NetBeans Project files
+######################
+*.jpg
+*.jpeg
+*.png
+*.css
+*.js
+*.eot
+*.otf
+*.svg
+*.ttf
+*.woff
+*.woff2
+*.less
+*.scss
+*.properties
+*.xml
+*.gitignore
+*.tiff
+*.gif
+*.txt
+*.json
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
